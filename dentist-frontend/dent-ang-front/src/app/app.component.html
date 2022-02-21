@@ -1,0 +1,32 @@
+<div class="navbar-container">
+  <nav class="navbar">
+    <div class="brand-title">Dentist clinic</div>
+    <a href="#" class="toggle-button">
+        <span class="bar"></span> <!--tri linije prave toggle-->
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </a>
+    <div class="navbar-links">
+        <ul>
+            <li><a routerLink="cancel-hours" id="cancelHoursBtn" routerLinkActive="active">Change cancel hours</a></li>
+            <li><a routerLink="patient-my-appointments" routerLinkActive="active">My booked appointments</a></li>
+            <li><a routerLink= "dentist-appointment-list" id="dentistListBtn" routerLinkActive="active">Booked appointments</a></li>
+            <li><a routerLink="create-appointment" routerLinkActive="active">Book appointment</a></li>
+            <li><a routerLink="login" id="loginBtn" routerLinkActive="active">Dentist - login</a></li>
+
+            <li><a (click)="logOut()" id="logoutBtn" >Log out</a></li>
+
+        </ul>
+    </div>
+  </nav>
+</div>
+
+
+<div id="container-content" class="container">
+  <router-outlet></router-outlet>
+</div>
+<footer class="footer">
+  <div class="container">
+    <span>All rights reserved K.B. 2022</span>
+  </div>
+</footer>

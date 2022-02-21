@@ -1,0 +1,18 @@
+<div id="loginDiv" class="col-md-6 offset-md-3">
+  <h1>Dentist login</h1>
+  <form class="login-form" (ngSubmit)="onSubmit()">
+    <h2>Insert your id: </h2>
+    <div class="form-group">
+      <input type="number" class="login" id="login" name="login" [(ngModel)] = login.dentistId (keypress)="onKeyPress($event)">
+      <!-- <input type="text" class="login" id="login" name="login" [(ngModel)] = login.dentistId> -->
+    </div>
+    <div class="form-group">
+      <button id="loginBtn" type="submit" class="btn btn-success">Login</button>
+
+    </div>
+
+
+  </form>
+</div>
+
+

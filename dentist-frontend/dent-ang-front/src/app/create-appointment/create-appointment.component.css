@@ -1,0 +1,27 @@
+.matFormField{
+
+  margin-left: 20px;
+}
+
+/*.form-group{
+  display: flex;
+} */
+.selectDuration{
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+#search-btn{
+  /*
+  position: absolute;
+  margin-top: 20px;
+  top:80%;
+  left: 48%;
+  width: 100px;
+
+*/
+  margin-top: 20px;
+  margin-bottom: 50px; /*mora ovde da footer ne pojede button */
+
+
+}

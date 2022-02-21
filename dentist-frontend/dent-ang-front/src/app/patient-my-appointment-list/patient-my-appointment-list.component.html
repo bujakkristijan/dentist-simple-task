@@ -1,0 +1,47 @@
+<div class="main-container">
+  <form (ngSubmit) = "onSubmit()">
+
+    <div class="form-group"></div>
+      <h2>Insert your phone number</h2>
+      <input type="text" class="form-control" id="phoneNumberId"
+        [(ngModel)]="appointment.phoneNumberId" name="phoneNumberId" (keypress)="onKeyPress($event)">
+
+      <button id="search-btn" class="btn btn-info" type="submit">Search</button>
+  </form>
+
+
+
+  <h2 *ngIf="mySearchedAppointmentsByPhoneNumber.length>0">Booked appointments</h2>
+  <table *ngIf="mySearchedAppointmentsByPhoneNumber.length>0" class="table table-striped">
+
+    <thead>
+      <tr>
+        <th>Phone number</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Date</th>
+        <th>Date ending</th>
+        <th>Start time</th>
+        <th>Duration</th>
+        <th>Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor= "let appointment of mySearchedAppointmentsByPhoneNumber">
+        <td> {{ appointment.phoneNumberId }} </td>
+        <td>{{ appointment.firstName}} </td>
+        <td>{{ appointment.lastName}} </td>
+        <td>{{ appointment.email}} </td>
+        <td>{{ appointment.date | date:'shortDate'}}</td>
+        <td>{{ appointment.endDateWithDurationAdded | date:'medium'}}</td>
+        <td>{{ appointment.time}} </td>
+        <td>{{ appointment.duration}} </td>
+        <td> <button (click)="cancelAppointment(appointment.phoneNumberId)" class="btn btn-danger">Cancel</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button (click)= "goToCreateAppointment()" class="btn btn-success" id="book-btn">Book appointment</button>
+
+</div>

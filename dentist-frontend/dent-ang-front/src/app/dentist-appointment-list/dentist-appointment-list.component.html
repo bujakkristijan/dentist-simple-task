@@ -1,0 +1,36 @@
+<div class="main-container">
+  <div class="logged-user">Logged user: {{loggedUser.firstName}} {{loggedUser.lastName}} </div>
+<h2 class="h2label">Booked appointments</h2>
+<table class="table table-striped">
+
+  <thead class="thead">
+    <tr>
+      <th>Phone number</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email</th>
+      <th>Date</th>
+      <th>Date ending</th>
+      <th>Start time</th>
+      <th>Duration</th>
+      <th>Action</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor= "let appointment of allAppointments">
+      <td> {{ appointment.phoneNumberId }} </td>
+      <td>{{ appointment.firstName}} </td>
+      <td>{{ appointment.lastName}} </td>
+      <td>{{ appointment.email}} </td>
+      <td>{{ appointment.date | date:'shortDate'}}</td>
+      <td>{{ appointment.endDateWithDurationAdded | date:'medium'}}</td>
+      <td>{{ appointment.time}} </td>
+      <td>{{ appointment.duration}} </td>
+      <td> <button (click)="cancelAppointment(appointment.phoneNumberId)" class="btn btn-danger">Cancel</button></td>
+    </tr>
+  </tbody>
+</table>
+<button (click)= "goToCreateAppointment()" class="btn btn-success" id="book-btn">Book appointment</button>
+
+</div>

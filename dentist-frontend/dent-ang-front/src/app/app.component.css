@@ -1,0 +1,111 @@
+*{
+  box-sizing: border-box;
+}
+
+body{
+
+  margin-bottom: 50px;
+  padding: 0;
+
+}
+
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  /*position: fixed;
+  width: 100%;
+  /*top: 0;
+  width: 100%;
+  */
+
+
+   /* da centrira brand name po vertikali */
+}
+.brand-title{
+  font-size: 1.5rem;
+  margin: 0.5rem;
+}
+.navbar-links{
+  padding-right: 5px;
+}
+.navbar-links ul{
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-links li{
+  list-style-type: none;
+
+}
+
+.navbar-links li a{
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+
+  display: block; /*nzm sto ovo da se */
+}
+
+.navbar-links li:hover{
+  background-color: #555;
+}
+
+/*.footer{
+  position: absolute;
+
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: whitesmoke;
+  background-color: rgb(29, 25, 25);
+  height: 30px;
+}
+*/
+
+.footer {
+  position: fixed;
+  height: 30px;
+  text-align: center;
+  color: whitesmoke;
+  background-color: rgb(29, 25, 25);
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+}
+
+#loginBtn{
+
+  background-color: whitesmoke;
+  color: black;
+  border: 2px solid rgb(128, 128, 128);
+  border-radius: 5px;
+
+}
+
+.navbar-container{
+  position: fixed;
+  width: 100%;
+}
+
+#container-content{
+
+    padding-top: 70px;
+    /* padding-bottom: 50px; */
+
+}
+
+#logoutBtn{
+
+  background-color: whitesmoke;
+  color: black;
+  border: 2px solid rgb(128, 128, 128);
+  border-radius: 5px;
+
+}
+
+

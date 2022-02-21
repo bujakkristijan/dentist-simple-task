@@ -1,0 +1,83 @@
+<div class="col-md-6 offset-md-3">
+  <h2>Book appointment</h2>
+<form (ngSubmit)="onSubmit()">
+
+  <div class="form-group">
+    <label>Phone number</label>
+    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+    [(ngModel)]="appointment.phoneNumberId" (keypress)="onKeyPress($event)">
+  </div>
+
+  <div class="form-group">
+    <label>First name</label>
+    <input type="text" class="form-control" id="firstName" name="firstName"
+    [(ngModel)]="appointment.firstName">
+  </div>
+
+  <div class="form-group">
+    <label>Last name</label>
+    <input type="text" class="form-control" id="lastName" name="lastName"
+    [(ngModel)]="appointment.lastName">
+  </div>
+
+  <div class="form-group">
+    <label>Email</label>
+    <input type="text" class="form-control" id="email" name="email"
+    [(ngModel)]="appointment.email">
+  </div>
+
+  <div class="form-group">
+    <label>Date</label>
+    <mat-form-field class="matFormField">
+      <mat-label>Choose date</mat-label>
+                <input matInput [matDatepicker]="pickerDOB"
+                        placeholder="Date of birth"
+                       [(ngModel)]="appointment.date" [ngModelOptions]="{standalone: true}">
+                                <mat-datepicker-toggle matSuffix [for]="pickerDOB"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerDOB></mat-datepicker>
+      </mat-form-field>
+    <!--
+    <input matInput [matDatepicker]="datepicker" placeholder="Select date"[(ngModel)]="appointment.date">
+    <mat-datepicker-toggle matSuffix [for]="datepicker"> </mat-datepicker-toggle>
+    <mat-datepicker #datepicker></mat-datepicker>
+    -->
+
+
+</div>
+
+<div class="form-group">
+  <label>Time</label>
+  <!--
+    <mat-form-field appearance="outline">
+
+    <input type="time" matInput name="week" min="09:00" max="18:00" [(ngModel)]="appointment.time">
+ </mat-form-field>
+  -->
+  <mat-form-field class="matFormField" appearance="legacy">
+    <mat-label>Time</mat-label>
+    <input matInput [format]="24" placeholder="Time range from 09:00 to 17:00" [(ngModel)]="appointment.time"
+    [ngModelOptions]="{standalone: true}" [ngxTimepicker]="range" min="09:00" max="17:00" [ngxTimepicker]="with30Gap" readonly >
+    <ngx-material-timepicker #range #with30Gap [minutesGap]="30"></ngx-material-timepicker>
+    <mat-hint>Choose start time</mat-hint>
+</mat-form-field>
+
+
+</div>
+
+<div class="form-group">
+  <label> Duration </label>
+
+  <select class="selectDuration" name="ChooseDuration" [(ngModel)] = "appointment.duration">
+    <option [value]="30">30 minutes</option>
+    <option [value]="60">60 minutes</option>
+
+  </select>
+
+</div>
+
+
+
+  <button id="search-btn" class="btn btn-info" type="submit">Book</button>
+</form>
+
+</div>
