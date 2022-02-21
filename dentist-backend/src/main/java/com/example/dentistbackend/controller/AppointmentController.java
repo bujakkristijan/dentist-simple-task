@@ -129,14 +129,7 @@ public class AppointmentController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> login(@RequestBody Login login){
 		User user = new User();
-		// try i catch bespotrebno, a ni ne ulazi u catch block
-		try {
-			int check = login.getDentistId();
-		} catch (Exception e) {
-			
-			user.setLoginMessage("BadRequest");
-			return new ResponseEntity<User>(user, HttpStatus.OK);
-		}
+		
 		if(login == null || login.getDentistId() == 0) {
 			user.setLoginMessage("BadRequest");
 			return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -144,7 +137,7 @@ public class AppointmentController {
 		try {
 			user = appointmentService.findUserById(login.getDentistId());
 		} catch (Exception e) {
-			user.setLoginMessage("NotExist");
+			user.setLoginMessage("BadRequest");
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		}
 		

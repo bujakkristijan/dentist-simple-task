@@ -2,7 +2,7 @@
   <form (ngSubmit) = "onSubmit()">
 
     <div class="form-group"></div>
-      <h2>Insert your phone number</h2>
+      <h2>Insert patient phone number</h2>
       <input type="text" class="form-control" id="phoneNumberId"
         [(ngModel)]="appointment.phoneNumberId" name="phoneNumberId" (keypress)="onKeyPress($event)">
 
@@ -20,10 +20,10 @@
         <th>First name</th>
         <th>Last name</th>
         <th>Email</th>
-        <th>Date</th>
-        <th>Date ending</th>
+        <th>Date start</th>
         <th>Start time</th>
-        <th>Duration</th>
+        <th>Date and time ending</th>
+        <th>Duration (minutes)</th>
         <th>Action</th>
 
       </tr>
@@ -35,8 +35,8 @@
         <td>{{ appointment.lastName}} </td>
         <td>{{ appointment.email}} </td>
         <td>{{ appointment.date | date:'shortDate'}}</td>
-        <td>{{ appointment.endDateWithDurationAdded | date:'medium'}}</td>
         <td>{{ appointment.time}} </td>
+        <td>{{ appointment.endDateWithDurationAdded | date:'medium'}}</td>
         <td>{{ appointment.duration}} </td>
         <td> <button (click)="cancelAppointment(appointment.phoneNumberId)" class="btn btn-danger">Cancel</button></td>
       </tr>

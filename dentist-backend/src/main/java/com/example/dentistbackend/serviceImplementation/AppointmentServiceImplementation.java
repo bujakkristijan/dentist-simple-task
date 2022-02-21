@@ -26,8 +26,8 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	@PostConstruct
 	private void init() {
 		 appointmentList = new ArrayList<Appointment>();
-		 appointmentList.add(new Appointment(1234, "zile", "zivkovic", "emailmarko", new Date(), new Date(), "time neki", "30", "yes", "no", "no", "no", "yes"));
-		 appointmentList.add(new Appointment(1234, "pera", "markovic", "emailmarko", new Date(), new Date(), "time neki", "60", "yes", "no", "no", "no", "yes"));
+		// appointmentList.add(new Appointment(1234, "zile", "zivkovic", "emailmarko", new Date(), new Date(), "time neki", "30", "yes", "no", "no", "no", "yes"));
+		// appointmentList.add(new Appointment(1234, "pera", "markovic", "emailmarko", new Date(), new Date(), "time neki", "60", "yes", "no", "no", "no", "yes"));
 		 
 		 userList = new ArrayList<User>();
 		 userList.add(new User(1, "Kristijan", "Bujak", "dentist", "cileb411@gmail.com", "exist"));

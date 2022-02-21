@@ -18,6 +18,7 @@ export class CreateAppointmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.appointment.duration = "30";
+
   }
 
   //createAppointment(){

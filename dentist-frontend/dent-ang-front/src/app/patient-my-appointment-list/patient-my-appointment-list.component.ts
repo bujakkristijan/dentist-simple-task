@@ -15,7 +15,7 @@ export class PatientMyAppointmentListComponent implements OnInit {
 
 
   appointments: Appointment[];
-  mySearchedAppointmentsByPhoneNumber: Appointment[];
+  mySearchedAppointmentsByPhoneNumber: Appointment[] = [];
   appointment: Appointment = new Appointment();
 
   messageAvailableToCancel: Message = new Message();

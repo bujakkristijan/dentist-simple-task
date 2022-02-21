@@ -30,6 +30,8 @@ export class AppComponent implements OnInit {
     this.dentistListBtn.style.display = 'none';
     this.logoutBtn.style.display = 'none';
     this.cancelHoursBtn.style.display = 'none';
+
+
   }
 
   constructor(private router: Router){}
