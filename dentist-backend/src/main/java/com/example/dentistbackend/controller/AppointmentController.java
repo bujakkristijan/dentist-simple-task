@@ -44,18 +44,6 @@ public class AppointmentController {
 	private EmailSenderService emailSenderService;
 	
 	
-	
-	@RequestMapping(value = "/appointmentsGas", method = RequestMethod.GET)
-	public ResponseEntity<List<Appointment>> getAppointmentList(){
-		List<Appointment> returnAppointmentList = new ArrayList<Appointment>();
-		returnAppointmentList = appointmentService.getAllAppointments();
-		//appointmentList.add(new Appointment(1234, "marko", "markovic", "emailmarko"));
-		//appointmentList.add(new Appointment(1234, "pera", "markovic", "emailmarko"));
-		System.out.println("123");
-		return new ResponseEntity<List<Appointment>>(returnAppointmentList, HttpStatus.OK);
-		
-	}
-	
 	@RequestMapping(value= "/getAllAppointments", method = RequestMethod.GET)
 	public ResponseEntity<List<Appointment>> getAllAppointmentList(){
 		List<Appointment> allAppointmentList = new ArrayList<Appointment>();

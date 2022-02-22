@@ -29,12 +29,6 @@ export class PatientMyAppointmentListComponent implements OnInit {
 
   }
 
-  private getMyAppointments(){
-    this.appointmentService.getMyAppointmentList().subscribe(data =>{
-      this.appointments = data;
-    });
-  }
-
   getCancelHours(){
     this.appointmentService.getCancelHours().subscribe(data =>{
       this.cancelHours = data;

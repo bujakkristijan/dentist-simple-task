@@ -12,10 +12,6 @@ export class AppointmentService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getMyAppointmentList():Observable<Appointment[]>{
-    return this.httpClient.get<Appointment[]>("http://localhost:8080/api/appointmentsGas");
-  }
-
   searchAppointmentByPhoneNumber(appointment: Appointment):Observable<any>{ //mora any, buni se u ts fajlu
     return this.httpClient.post("http://localhost:8080/api/getAppointmentByPhoneNumber", appointment);
   }
