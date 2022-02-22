@@ -1,3 +1,5 @@
+import { AppComponent } from './../app.component';
+import { Router } from '@angular/router';
 import { CancelHours } from './../cancel-hours';
 import { Message } from './../message';
 import { AppointmentService } from './../appointment.service';
@@ -19,14 +21,22 @@ export class CancelHoursComponent implements OnInit {
   message: Message;
 
 
-  constructor(private appointmentService: AppointmentService) { }
+  constructor(private appComponent: AppComponent, private appointmentService: AppointmentService, private router: Router) { }
 
   ngOnInit(): void {
-    this.getCancelHours();
+
+    if(this.appComponent.loggedUser.title === "dentist"){
+      this.getCancelHours();
     this.modal = document.getElementById("myModal");
     //this.cancelHours = new CancelHours();
     //this.cancelHoursGet = new CancelHours();
     this.message = new Message();
+    }
+    else{
+      this.router.navigate(['patient-my-appointments']);
+      console.log("Unaothorized!");
+    }
+
   }
 
   getCancelHours(){

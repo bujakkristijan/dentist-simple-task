@@ -30,10 +30,13 @@ export class DentistAppointmentListComponent implements OnInit {
       this.appComponent.cancelHoursBtn.style.display = 'block';
       this.appComponent.dentistListBtn.style.display = 'block';
 
-
+      this.getAllAppointments();
+      this.getCancelHours();
     }
-    this.getAllAppointments();
-    this.getCancelHours();
+    else{
+      this.router.navigate(['patient-my-appointments']);
+      console.log("Unauthorized!");
+    }
 
 
   }
