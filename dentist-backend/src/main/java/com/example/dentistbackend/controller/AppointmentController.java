@@ -93,13 +93,24 @@ public class AppointmentController {
 		if(availableToCancel == true) {
 			appointmentService.delete(phoneNumberId);
 			message.setAvailableToCancel("yes");
+			//dodajem i vreme na datum jer je bilo od 00:00
+			 Calendar calendarStart = Calendar.getInstance();
+			 calendarStart.setTime(appointment.getDate());
+			 String hoursAndMinutesParts [] = appointment.getTime().split(":");
+			 String hoursString = hoursAndMinutesParts[0];
+			 String minutesString = hoursAndMinutesParts[1];
+			 int onlyMinutes = Integer.valueOf(minutesString);
+			 calendarStart.add(Calendar.HOUR_OF_DAY, Integer.valueOf(hoursString));
+			 calendarStart.add(Calendar.MINUTE, Integer.valueOf(onlyMinutes));
+			 Date startDate = calendarStart.getTime();
+			 appointment.setDate(startDate);
 			//email pacijentu
 			emailSenderService.SendSimpleEmail(appointment.getEmail(), 
     				"Your appointment that starts at: " + appointment.getDate() + " and ends at: " + appointment.getEndDateWithDurationAdded() + ", with duration: " + appointment.getDuration() + " minutes is canceled successfully!" ,
     				"Cancelation appointment confirmation");
 			//email zubaru
 			emailSenderService.SendSimpleEmail(appointmentService.getUser().getEmail(), 
-    				"You have new appointment that starts at: " + appointment.getDate() + " and ends at: " + appointment.getEndDateWithDurationAdded() + ", with duration: " + appointment.getDuration() + " minutes, booked by: " + appointment.getFirstName() + " " + appointment.getLastName() + ", phone number: " + appointment.getPhoneNumberId() + "is canceled!" ,
+    				"Your appointment that starts at: " + appointment.getDate() + " and ends at: " + appointment.getEndDateWithDurationAdded() + ", with duration: " + appointment.getDuration() + " minutes, booked by: " + appointment.getFirstName() + " " + appointment.getLastName() + ", phone number: " + appointment.getPhoneNumberId() + " is canceled!" ,
     				"Cancelation appointment confirmation");
 			
 			return new ResponseEntity<Message>(message, HttpStatus.OK);
