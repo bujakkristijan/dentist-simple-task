@@ -3,13 +3,26 @@ package com.example.dentistbackend.service;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.dentistbackend.model.Appointment;
 import com.example.dentistbackend.model.CancelHours;
 import com.example.dentistbackend.model.User;
 
+@Service
+@Transactional
 public interface AppointmentService {
 	
-	public String save(Appointment appointment);
+	List<Appointment> findAll();
+	 
+	Appointment save(Appointment appointment);
+	
+	Appointment findOne(Long id);
+	
+	Appointment delete(Appointment appointment);
+	
+	//public String save(Appointment appointment);
 	
 	public List<Appointment> getAllAppointments();
 	

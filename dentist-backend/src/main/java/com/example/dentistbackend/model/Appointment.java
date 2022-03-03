@@ -1,21 +1,55 @@
 package com.example.dentistbackend.model;
 
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Appointment {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+@Entity
+public class Appointment{
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(nullable = false) 
 	private int phoneNumberId;
+	
+	@Column(nullable = false) 
 	private String firstName;
+	
+	@Column(nullable = false) 
 	private String lastName;
+	
+	@Column(nullable = false) 
 	private String email;
+	
+	@Column(nullable = false) 
 	private Date date;
+	
+	@Column(nullable = true) 
 	private Date endDateWithDurationAdded;
+	
+	@Column(nullable = false) 
 	private String time;
+	
+	@Column(nullable = false) 
 	private String duration;
+	
+	@Transient
 	private String messageAvailable;
+	@Transient
 	private String messageAlreadyExist;
+	@Transient
 	private String messageDateInPast;
+	@Transient
 	private String messageInvalidInput;
+	@Transient
 	private String messageSuccessfullyAdded;
 	
 	public Appointment(int phoneNumberId, String firstName, String lastName, String email, Date date, Date endDateWithDurationAdded, String time, String duration, String messageAvailable, String messageAlreadyExist, String messageDateInPast, String messageInvalidInput, String messageSuccessfullyAdded) {
@@ -34,6 +68,14 @@ public class Appointment {
 		this.messageInvalidInput = messageInvalidInput;
 		this.messageSuccessfullyAdded = messageSuccessfullyAdded;
 	}
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getMessageSuccessfullyAdded() {
 		return messageSuccessfullyAdded;
 	}

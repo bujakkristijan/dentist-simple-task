@@ -8,20 +8,30 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.dentistbackend.model.Appointment;
 import com.example.dentistbackend.model.CancelHours;
 import com.example.dentistbackend.model.User;
+import com.example.dentistbackend.repository.AppointmentRepository;
 import com.example.dentistbackend.service.AppointmentService;
 
+
+
 @Service
+//@Transactional
 public class AppointmentServiceImplementation implements AppointmentService {
 	
 	private ArrayList<Appointment> appointmentList;
 	private ArrayList<User> userList;
 	private CancelHours cancelHours;
+	
+	@Autowired
+	AppointmentRepository appointmentRepository;
+	
 	
 	@PostConstruct
 	private void init() {
@@ -40,6 +50,31 @@ public class AppointmentServiceImplementation implements AppointmentService {
 		 
 		 
 	 }
+	
+	
+	@Override
+	public Appointment findOne(Long id) {
+		return appointmentRepository.findById(id).get();
+	}
+
+	@Override
+	public List<Appointment> findAll() {
+		return appointmentRepository.findAll();
+	}
+
+	@Override
+	public Appointment save(Appointment appointment) {
+		return appointmentRepository.save(appointment);
+	}	
+	
+	@Override
+	public Appointment delete(Appointment appointment) {
+		if(appointment == null) 
+			throw new IllegalArgumentException("Attempt to delete non-existing course.");
+		
+		appointmentRepository.delete(appointment);
+		return appointment;
+	}
 	
 	@Override
 	public User getUser() {
@@ -71,16 +106,17 @@ public class AppointmentServiceImplementation implements AppointmentService {
 		return returnAppointmentList;
 	}
 	
-	@Override
-	public String save(Appointment appointment){
-		appointmentList.add(appointment);
-		return "Something";
-	}
+	//@Override
+	//public String save(Appointment appointment){
+	//	appointmentList.add(appointment);
+	//	return "Something";
+	//}
 	
 	@Override
 	public List<Appointment> getAppointmentsByPhoneNumber(int phoneNumber){
 		List<Appointment> returnAppointmentList = new ArrayList<Appointment>();
-		for(Appointment a: appointmentList) {
+		List<Appointment> appointmentListDB = appointmentRepository.findAll();
+		for(Appointment a: appointmentListDB) {
 			if(phoneNumber == a.getPhoneNumberId()) {
 				returnAppointmentList.add(a);
 			}
@@ -91,7 +127,8 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	@Override
 	public String checkIsAvailable(Date startDate, Date endDate) {
 		String retVal = "yes";
-		List<Appointment> allAppointmentList = getAllAppointments();
+		//List<Appointment> allAppointmentList = getAllAppointments();
+		List<Appointment> allAppointmentList = appointmentRepository.findAll();
 		for(Appointment a: allAppointmentList) {
 			if(a.getDate().before(endDate) && a.getEndDateWithDurationAdded().after(startDate) ) {
 				retVal = "no";
@@ -106,7 +143,8 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	@Override 
 	public String checkIsAlreadyBooked(int phoneNumber) {
 		String retVal = "no";
-		List<Appointment> allAppointmentList = getAllAppointments();
+		//List<Appointment> allAppointmentList = getAllAppointments();
+		List<Appointment> allAppointmentList = appointmentRepository.findAll();
 		for(Appointment a: allAppointmentList) {
 			if(a.getPhoneNumberId() == phoneNumber) {
 				retVal = "yes";
@@ -122,7 +160,8 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	@Override
 	public Appointment findAppointmentByPhoneNumberId(int phoneNumberId) {
 		Appointment appointment = new Appointment();
-		List<Appointment> allAppointmentList = getAllAppointments();
+		//List<Appointment> allAppointmentList = getAllAppointments();
+		List<Appointment> allAppointmentList = appointmentRepository.findAll();
 		for(Appointment a: allAppointmentList) {
 			if(a.getPhoneNumberId() == phoneNumberId) {
 				appointment = a;

@@ -46,16 +46,18 @@ public class AppointmentController {
 	
 	@RequestMapping(value= "/getAllAppointments", method = RequestMethod.GET)
 	public ResponseEntity<List<Appointment>> getAllAppointmentList(){
-		List<Appointment> allAppointmentList = new ArrayList<Appointment>();
-		allAppointmentList = appointmentService.getAllAppointments();
+		//List<Appointment> allAppointmentList = new ArrayList<Appointment>();
+		//allAppointmentList = appointmentService.getAllAppointments();
+		List<Appointment> allAppointmentList = appointmentService.findAll();
+		System.out.println(allAppointmentList.get(0).getFirstName() + " " + allAppointmentList.get(0).getMessageAvailable());
 		return new ResponseEntity<List<Appointment>>(allAppointmentList, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getAppointmentByPhoneNumber", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Appointment>> getAppointmentsByPhoneNumber(@RequestBody Appointment appointment){
 		
-		List<Appointment> returntAppointmentList = new ArrayList<Appointment>();
-		returntAppointmentList = appointmentService.getAppointmentsByPhoneNumber(appointment.getPhoneNumberId());
+		//List<Appointment> returntAppointmentList = new ArrayList<Appointment>();
+		List<Appointment> returntAppointmentList = appointmentService.getAppointmentsByPhoneNumber(appointment.getPhoneNumberId());
 		return new ResponseEntity<List<Appointment>>(returntAppointmentList,  HttpStatus.OK);
 	}
 	
@@ -91,7 +93,8 @@ public class AppointmentController {
 		}
 		boolean availableToCancel = appointmentService.checkIsAvailableToCancel(appointment);
 		if(availableToCancel == true) {
-			appointmentService.delete(phoneNumberId);
+			//appointmentService.delete(phoneNumberId);
+			appointmentService.delete(appointment);
 			message.setAvailableToCancel("yes");
 			//dodajem i vreme na datum jer je bilo od 00:00
 			 Calendar calendarStart = Calendar.getInstance();
