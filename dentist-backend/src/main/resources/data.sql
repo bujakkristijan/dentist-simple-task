@@ -1,0 +1,1 @@
+/* insert into simpletask.user (id, first_name, last_name, username, password, role, email) values (2, "Kristijan", "Bujak", "a", "123", "dentist", "cileb411@gmail.com"); */

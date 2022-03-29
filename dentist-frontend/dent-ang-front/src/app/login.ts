@@ -1,4 +1,5 @@
 export class Login {
 
-   dentistId: number;
+   username: string;
+   password: string;
 }

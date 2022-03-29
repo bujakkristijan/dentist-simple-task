@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PatientMyAppointmentListComponent } from './patient-my-appointment-list/patient-my-appointment-list.component';
@@ -16,6 +16,8 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { LoginComponent } from './login/login.component';
 import { DentistAppointmentListComponent } from './dentist-appointment-list/dentist-appointment-list.component';
 import { CancelHoursComponent } from './cancel-hours/cancel-hours.component';
+import { LoginJWTComponent } from './login-jwt/login-jwt.component';
+import { AuthInterceptor } from './auth-interceptor';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { CancelHoursComponent } from './cancel-hours/cancel-hours.component';
     CreateAppointmentComponent,
     LoginComponent,
     DentistAppointmentListComponent,
-    CancelHoursComponent
+    CancelHoursComponent,
+    LoginJWTComponent
+
 
 
   ],
@@ -42,7 +46,9 @@ import { CancelHoursComponent } from './cancel-hours/cancel-hours.component';
 
 
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [LoginJWTComponent, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }], // ovo je moralo nzm stooo!
+  bootstrap: [AppComponent],
+
+
 })
 export class AppModule { }

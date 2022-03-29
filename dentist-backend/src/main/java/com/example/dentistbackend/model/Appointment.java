@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 @Entity
 public class Appointment{
@@ -41,6 +42,9 @@ public class Appointment{
 	@Column(nullable = false) 
 	private String duration;
 	
+	@ManyToOne
+	private User dentist;
+	
 	@Transient
 	private String messageAvailable;
 	@Transient
@@ -52,7 +56,7 @@ public class Appointment{
 	@Transient
 	private String messageSuccessfullyAdded;
 	
-	public Appointment(int phoneNumberId, String firstName, String lastName, String email, Date date, Date endDateWithDurationAdded, String time, String duration, String messageAvailable, String messageAlreadyExist, String messageDateInPast, String messageInvalidInput, String messageSuccessfullyAdded) {
+	public Appointment(int phoneNumberId, String firstName, String lastName, String email, Date date, Date endDateWithDurationAdded, String time, String duration, String messageAvailable, String messageAlreadyExist, String messageDateInPast, String messageInvalidInput, String messageSuccessfullyAdded, User dentist) {
 		super();
 		this.phoneNumberId = phoneNumberId;
 		this.firstName = firstName;
@@ -67,8 +71,17 @@ public class Appointment{
 		this.messageDateInPast = messageDateInPast;
 		this.messageInvalidInput = messageInvalidInput;
 		this.messageSuccessfullyAdded = messageSuccessfullyAdded;
+		this.dentist = dentist;
 	}
 	
+	public User getDentist() {
+		return dentist;
+	}
+
+	public void setDentist(User dentist) {
+		this.dentist = dentist;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,10 @@ import com.example.dentistbackend.model.CancelHours;
 import com.example.dentistbackend.model.Login;
 import com.example.dentistbackend.model.Message;
 import com.example.dentistbackend.model.User;
+import com.example.dentistbackend.security.JwtUtil;
 import com.example.dentistbackend.service.AppointmentService;
+import com.example.dentistbackend.service.UserService;
+
 
 
 
@@ -43,14 +47,32 @@ public class AppointmentController {
 	@Autowired 
 	private EmailSenderService emailSenderService;
 	
+	@Autowired
+	private UserService userService;
 	
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'DENTIST')")
 	@RequestMapping(value= "/getAllAppointments", method = RequestMethod.GET)
 	public ResponseEntity<List<Appointment>> getAllAppointmentList(){
 		//List<Appointment> allAppointmentList = new ArrayList<Appointment>();
 		//allAppointmentList = appointmentService.getAllAppointments();
 		List<Appointment> allAppointmentList = appointmentService.findAll();
-		System.out.println(allAppointmentList.get(0).getFirstName() + " " + allAppointmentList.get(0).getMessageAvailable());
+		//System.out.println(allAppointmentList.get(0).getFirstName() + " " + allAppointmentList.get(0).getMessageAvailable());
 		return new ResponseEntity<List<Appointment>>(allAppointmentList, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'DENTIST')")
+	@RequestMapping(value= "/getMyAppointments", method = RequestMethod.GET)
+	public ResponseEntity<List<Appointment>> getMyAppointmentList(){
+		
+		User currentUser = userService.getCurrentUser();
+		List<Appointment> allAppointmentList = appointmentService.findAll();
+		List<Appointment> myAppointmentList =new ArrayList<Appointment>();
+		for(Appointment a: allAppointmentList) {
+			if(a.getDentist().getId() == currentUser.getId()) {
+				myAppointmentList.add(a);
+			}
+		}
+		return new ResponseEntity<List<Appointment>>(myAppointmentList, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getAppointmentByPhoneNumber", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,6 +83,7 @@ public class AppointmentController {
 		return new ResponseEntity<List<Appointment>>(returntAppointmentList,  HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'DENTIST')")
 	@RequestMapping(value= "/getCancelHours", method = RequestMethod.GET)
 	public ResponseEntity<CancelHours> getCancelHours(){
 		CancelHours cancelHours = new CancelHours();
@@ -68,6 +91,7 @@ public class AppointmentController {
 		return new ResponseEntity<CancelHours>(cancelHours, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'DENTIST')")
 	@RequestMapping(value = "/changeCancelHours", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Message> changeCancelHours(@RequestBody CancelHours cancelHours){
 		Message message = new Message();
@@ -112,7 +136,7 @@ public class AppointmentController {
     				"Your appointment that starts at: " + appointment.getDate() + " and ends at: " + appointment.getEndDateWithDurationAdded() + ", with duration: " + appointment.getDuration() + " minutes is canceled successfully!" ,
     				"Cancelation appointment confirmation");
 			//email zubaru
-			emailSenderService.SendSimpleEmail(appointmentService.getUser().getEmail(), 
+			emailSenderService.SendSimpleEmail(appointment.getDentist().getEmail(), 
     				"Your appointment that starts at: " + appointment.getDate() + " and ends at: " + appointment.getEndDateWithDurationAdded() + ", with duration: " + appointment.getDuration() + " minutes, booked by: " + appointment.getFirstName() + " " + appointment.getLastName() + ", phone number: " + appointment.getPhoneNumberId() + " is canceled!" ,
     				"Cancelation appointment confirmation");
 			
@@ -128,35 +152,38 @@ public class AppointmentController {
 		}
 	}
 	
+	@SuppressWarnings("null")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> login(@RequestBody Login login){
 		User user = new User();
+		if(login == null)
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		
-		if(login == null || login.getDentistId() == 0) {
-			user.setLoginMessage("BadRequest");
-			return new ResponseEntity<User>(user, HttpStatus.OK);
-		}
 		try {
-			user = appointmentService.findUserById(login.getDentistId());
+			user = userService.findByUsername(login.getUsername());
 		} catch (Exception e) {
-			user.setLoginMessage("BadRequest");
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			// TODO: handle exception
 		}
 		
+			
 		if(user == null) {
 			user = new User();
 			user.setLoginMessage("NotExist");
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		}
-		else if(user != null) {
+		
+		else if (user!=null && !user.getPassword().equals(login.getPassword())) {
+			user.setLoginMessage("InvalidPassword");
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		}
+		
+		else if(user!=null && user.getPassword().equals(login.getPassword())) {
 			user.setLoginMessage("Exist");
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		}
-		user = new User();
-		user.setLoginMessage("BadRequest");
-		return new ResponseEntity<User>(user, HttpStatus.OK);
-		
-		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
 	
 	
 	
@@ -255,7 +282,7 @@ public class AppointmentController {
 		    				"Your appointment starts at: " + appointment.getDate() + " and ends at: " + appointment.getEndDateWithDurationAdded() + ", with duration: " + appointment.getDuration() + " minutes" ,
 		    				"Booked appointment confirmation");
 	    			//email zubaru
-	    			emailSenderService.SendSimpleEmail(appointmentService.getUser().getEmail(), 
+	    			emailSenderService.SendSimpleEmail(appointment.getDentist().getEmail(), 
 		    				"You have new appointment that starts at: " + appointment.getDate() + " and ends at: " + appointment.getEndDateWithDurationAdded() + ", with duration: " + appointment.getDuration() + " minutes, booked by: " + appointment.getFirstName() + " " + appointment.getLastName() + ", phone number: " + appointment.getPhoneNumberId() ,
 		    				"Booked appointment confirmation");
 	    			

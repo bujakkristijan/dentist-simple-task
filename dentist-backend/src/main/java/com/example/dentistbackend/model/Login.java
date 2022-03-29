@@ -2,24 +2,37 @@ package com.example.dentistbackend.model;
 
 public class Login {
 	
-	private int dentistId;
+	private String username;
+	private String password;
 	
 	public Login() {
 		
 	}
-	public Login(int dentistId) {
+	
+	public Login(String username, String password) {
 		super();
-		this.dentistId = dentistId;
+		this.username = username;
+		this.password = password;
 	}
 
-	public int getDentistId() {
-		return dentistId;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setDentistId(int dentistId) {
-		this.dentistId = dentistId;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	
+	
 	
 	
 	

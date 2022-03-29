@@ -26,6 +26,19 @@
     [(ngModel)]="appointment.email">
   </div>
 
+  <div class="form-group" id="comboDentistDiv">
+    <div class="labelComboDentist">
+      <label> Choose dentist </label>
+    </div>
+
+    <div class ="comboDentist">
+      <select name="ChooseDentist" [(ngModel)] = "appointment.dentist">
+        <option *ngFor = "let dentist of dentists" [ngValue] = "dentist">Dr. {{dentist.firstName}} {{dentist.lastName}}</option> <!-- ngValue  moze i objekte a value samo stringove !!!!!!!!-->
+      </select>
+    </div>
+
+  </div>
+
   <div class="form-group">
     <label>Date</label>
     <mat-form-field class="matFormField">

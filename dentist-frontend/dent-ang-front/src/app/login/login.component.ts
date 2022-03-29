@@ -26,15 +26,15 @@ export class LoginComponent implements OnInit {
       this.user = data;
 
       if(this.user.loginMessage === "NotExist"){
-        alert('User with that id doesnt exist');
+        alert('User with that username doesnt exist');
       }
       else if(this.user.loginMessage === "Exist"){
         //kada se uloguje setujem loggedUsera u app Component kako bih nakon kreiranja appointmenta znao gde da ga vrati
         this.appComponent.loggedUser = data;
         this.goToDentistAppointmentList();
       }
-      else if(this.user.loginMessage === "BadRequest"){
-        alert('Bad request! You must insert a number!')
+      else if(this.user.loginMessage === "InvalidPassword"){
+        alert('Invalid password! Try again!')
       }
     });
   }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Appointment } from './appointment';
@@ -30,6 +30,12 @@ export class AppointmentService {
 
   getAllAppointmentList():Observable<Appointment[]>{
     return this.httpClient.get<Appointment[]>("http://localhost:8080/api/getAllAppointments");
+  }
+
+  getMyAppointmentList():Observable<any>{
+    //let tokenStr = 'Bearer ' + token;
+    //const headers = new HttpHeaders().set("Authorization", tokenStr);
+    return this.httpClient.get<any>("http://localhost:8080/api/getMyAppointments");
   }
 
   getCancelHours():Observable<CancelHours>{

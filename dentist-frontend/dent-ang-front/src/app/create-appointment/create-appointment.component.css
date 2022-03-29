@@ -25,3 +25,16 @@
 
 
 }
+
+#comboDentistDiv{
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.comboDentist{
+  padding-left: 10px;
+}
+
+
+

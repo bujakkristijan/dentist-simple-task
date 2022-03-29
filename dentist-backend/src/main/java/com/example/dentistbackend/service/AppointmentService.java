@@ -36,7 +36,6 @@ public interface AppointmentService {
 	
 	public String delete(int phoneNumberId);
 	
-	public User findUserById(int dentistId);
 	
 	public Boolean checkIsAvailableToCancel(Appointment appointment);
 	

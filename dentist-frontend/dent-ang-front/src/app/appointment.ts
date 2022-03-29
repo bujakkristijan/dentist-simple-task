@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export class Appointment {
 
   phoneNumberId: number;
@@ -9,6 +11,7 @@ export class Appointment {
   endDateWithDurationAdded: Date;
   time: string;
   duration: string;
+  dentist: User;
   messageAvailable: string;
   messageAlreadyExist: string;
   messageDateInPast: string;

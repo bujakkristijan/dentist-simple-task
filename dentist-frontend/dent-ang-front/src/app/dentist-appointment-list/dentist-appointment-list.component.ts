@@ -1,3 +1,4 @@
+import { LoginJWTComponent } from './../login-jwt/login-jwt.component';
 import { Message } from './../message';
 import { AppComponent } from './../app.component';
 import { AppointmentService } from './../appointment.service';
@@ -15,22 +16,24 @@ import { CancelHours } from '../cancel-hours';
 export class DentistAppointmentListComponent implements OnInit {
 
   allAppointments: Appointment[];
+  myAppointments: Appointment[];
   loggedUser: User;
   messageAvailableToCancel: Message = new Message();
   cancelHours: CancelHours = new CancelHours();
 
-  constructor(private appComponent: AppComponent, private appointmentService: AppointmentService, private router: Router) { }
+  constructor(private loginJWTComponent: LoginJWTComponent, private appComponent: AppComponent, private appointmentService: AppointmentService, private router: Router) { }
 
   ngOnInit(): void {
-
-    if(this.appComponent.loggedUser.title === "dentist"){
+    console.log("TOLEEEE " + this.appComponent.loggedUser.role);
+    if(this.appComponent.loggedUser.role === "DENTIST" || this.appComponent.loggedUser.role === 'ADMIN'){
       this.loggedUser = this.appComponent.loggedUser;
       this.appComponent.loginBtn.style.display = 'none';  // ako je ulogovan sakrijem button za logovanje
       this.appComponent.logoutBtn.style.display = 'block';
       this.appComponent.cancelHoursBtn.style.display = 'block';
       this.appComponent.dentistListBtn.style.display = 'block';
 
-      this.getAllAppointments();
+      //this.getAllAppointments();
+      this.getMyAppointments();
       this.getCancelHours();
     }
     else{
@@ -50,6 +53,13 @@ export class DentistAppointmentListComponent implements OnInit {
       this.allAppointments = data;
       //this.sortAppointmentsByDateAndTime();
       this.sortAppointments();
+    });
+  }
+
+  getMyAppointments(){
+    this.appointmentService.getMyAppointmentList().subscribe(data =>{
+      this.myAppointments = data;
+      this.sortMyAppointments();
     });
   }
 
@@ -86,6 +96,9 @@ export class DentistAppointmentListComponent implements OnInit {
 
   sortAppointments(){
     this.allAppointments.sort((x, y) => +new Date(x.date) - +new Date(y.date));
+  }
+  sortMyAppointments(){
+    this.myAppointments.sort((x, y) => +new Date(x.date) - +new Date(y.date));
   }
 
 

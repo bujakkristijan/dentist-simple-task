@@ -35,12 +35,12 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	
 	@PostConstruct
 	private void init() {
-		 appointmentList = new ArrayList<Appointment>();
+		 //appointmentList = new ArrayList<Appointment>();
 		// appointmentList.add(new Appointment(1234, "zile", "zivkovic", "emailmarko", new Date(), new Date(), "time neki", "30", "yes", "no", "no", "no", "yes"));
 		// appointmentList.add(new Appointment(1234, "pera", "markovic", "emailmarko", new Date(), new Date(), "time neki", "60", "yes", "no", "no", "no", "yes"));
 		 
-		 userList = new ArrayList<User>();
-		 userList.add(new User(1, "Kristijan", "Bujak", "dentist", "cileb411@gmail.com", "exist"));
+		 //userList = new ArrayList<User>();
+		 //userList.add(new User((long) 1, "Kristijan", "Bujak", "username123", "password123", "dentist", "cileb411@gmail.com", "exist"));
 		 
 		 
 		 cancelHours = new CancelHours();
@@ -185,18 +185,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
 		return "NotDeleted";
 	}
 	
-	@Override
-	public User findUserById(int dentistId) {
-		User user = new User();
-		for(User u: userList) {
-			if(u.getId() == dentistId) {
-				user = u;
-				return user;
-			}
-		}
-		return null;
-		
-	}
+	
 	
 	@Override
 	public Boolean checkIsAvailableToCancel(Appointment appointment) {

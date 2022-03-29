@@ -1,3 +1,4 @@
+import { LoginJWTService } from './login-jwt.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from './user';
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedUser = new User();
-    this.loggedUser.title = "NotDentist";
+    this.loggedUser.role = "NotDentist";
+    localStorage.token = "";
 
     this.loginBtn = document.getElementById("loginBtn");
     this.logoutBtn = document.getElementById("logoutBtn");
@@ -34,17 +36,26 @@ export class AppComponent implements OnInit {
 
   }
 
-  constructor(private router: Router){}
+  constructor(private loginJWTservice: LoginJWTService, private router: Router){}
   title = 'dent-ang-front';
 
   logOut(){
     this.loggedUser = new User();
-    this.router.navigate(['patient-my-appointments']);
-    //sakriva logout i pokazuje login ponovo
-    this.cancelHoursBtn.style.display = 'none';
-    this.dentistListBtn.style.display = 'none';
-    this.logoutBtn.style.display = 'none';
-    this.loginBtn.style.display = 'block';
+
+    this.loginJWTservice.logout().subscribe(data =>{
+      localStorage.token = "";
+      console.log("Token local storage: ");
+      //localStorage.removeItem("token");
+
+
+      this.router.navigate(['patient-my-appointments']);
+      //sakriva logout i pokazuje login ponovo
+      this.cancelHoursBtn.style.display = 'none';
+      this.dentistListBtn.style.display = 'none';
+      this.logoutBtn.style.display = 'none';
+      this.loginBtn.style.display = 'block';
+    });
+
 
   }
 

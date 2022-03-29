@@ -1,3 +1,4 @@
+import { LoginJWTComponent } from './login-jwt/login-jwt.component';
 import { CancelHoursComponent } from './cancel-hours/cancel-hours.component';
 import { LoginComponent } from './login/login.component';
 import { DentistAppointmentListComponent } from './dentist-appointment-list/dentist-appointment-list.component';
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'create-appointment', component: CreateAppointmentComponent},
   {path: 'dentist-appointment-list', component: DentistAppointmentListComponent},
   {path: 'cancel-hours', component: CancelHoursComponent},
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: 'login-jwt', component: LoginJWTComponent}
 ];
 
 @NgModule({

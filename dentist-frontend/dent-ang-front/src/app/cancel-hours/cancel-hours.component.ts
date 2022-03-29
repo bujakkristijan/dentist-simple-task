@@ -25,7 +25,7 @@ export class CancelHoursComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if(this.appComponent.loggedUser.title === "dentist"){
+    if(this.appComponent.loggedUser.role === "DENTIST"){
       this.getCancelHours();
     this.modal = document.getElementById("myModal");
     //this.cancelHours = new CancelHours();

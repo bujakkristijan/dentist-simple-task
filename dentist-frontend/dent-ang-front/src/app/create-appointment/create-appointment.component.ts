@@ -5,6 +5,8 @@ import { AppointmentService } from './../appointment.service';
 import { Component, OnInit } from '@angular/core';
 import { Appointment } from '../appointment';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { User } from '../user';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-create-appointment',
@@ -14,10 +16,14 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 export class CreateAppointmentComponent implements OnInit {
 
   appointment: Appointment = new Appointment();
-  constructor(private appComponent: AppComponent, private appointmentService: AppointmentService, private router: Router) { }
+  dentists: User[] = [];
+
+  constructor(private userService: UserService, private appComponent: AppComponent, private appointmentService: AppointmentService, private router: Router) { }
 
   ngOnInit(): void {
     this.appointment.duration = "30";
+    this.getDentists();
+
 
   }
 
@@ -48,7 +54,7 @@ export class CreateAppointmentComponent implements OnInit {
       else if(this.appointment.messageSuccessfullyAdded === "yes"){
         alert("You have successfully booked appointment!")
         //ako je ulogovan dentist vraca ga na dentistallappointments
-        if(this.appComponent.loggedUser.title === "dentist"){
+        if(this.appComponent.loggedUser.role === "dentist"){
           this.goToDentistAllAppointmentList();
         }
         //ako je dodat od strane pacijenta ide na patientmyappointmentlist
@@ -76,6 +82,15 @@ export class CreateAppointmentComponent implements OnInit {
     if (event.keyCode != 8 && !regexpNumber.test(inputCharacter)) {
       event.preventDefault();
     }
+  }
+
+  getDentists(){
+    this.userService.getDentistList().subscribe(data =>{
+      this.dentists = data;
+      if(this.dentists.length>0){
+        this.appointment.dentist = this.dentists[0]; // ako postoji dentist, stavi prvi iz liste kao default
+      }
+    });
   }
 
 }
